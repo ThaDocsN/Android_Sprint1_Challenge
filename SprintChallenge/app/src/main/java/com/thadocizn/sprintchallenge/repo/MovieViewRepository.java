@@ -6,13 +6,13 @@ import com.thadocizn.sprintchallenge.Movie;
 
 import java.util.ArrayList;
 
-public class MovieRepository {
+public class MovieViewRepository {
     private ArrayList<Movie> movies;
 
-    public MovieRepository() {
+    public MovieViewRepository() {
         this.movies = new ArrayList<>();
     }
-    public MutableLiveData<ArrayList<Movie>> getNotes(){
+    public MutableLiveData<ArrayList<Movie>> getMovies(){
         MutableLiveData<ArrayList<Movie>> liveDataList = new MutableLiveData<>();
         liveDataList.setValue(movies);
         return liveDataList;
