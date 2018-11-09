@@ -3,6 +3,9 @@ package com.thadocizn.sprintchallenge;
 import java.io.Serializable;
 
 public class Movie implements Serializable {
+
+    public static final int NO_ID = -1;
+
     private String movieName;
     private int id;
 
