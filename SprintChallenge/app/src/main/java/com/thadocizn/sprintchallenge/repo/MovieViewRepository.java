@@ -29,5 +29,15 @@ public class MovieViewRepository {
         }
         return movies;
     }
+    public ArrayList<Movie> deleteMovie(Movie movie){
+
+        if (movie.getId() == Movie.NO_ID){
+            int index = movies.size();
+            movie.setId(index);
+            movies.remove(movie);
+
+        }
+        return movies;
+    }
 
 }

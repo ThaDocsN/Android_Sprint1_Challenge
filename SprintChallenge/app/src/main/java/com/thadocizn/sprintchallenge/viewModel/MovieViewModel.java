@@ -33,4 +33,10 @@ public class MovieViewModel extends ViewModel {
         }
     }
 
+    public void deleteMovie(Movie movie){
+        if (movieList != null){
+            movieList.setValue(repo.deleteMovie(movie));
+        }
+    }
+
 }

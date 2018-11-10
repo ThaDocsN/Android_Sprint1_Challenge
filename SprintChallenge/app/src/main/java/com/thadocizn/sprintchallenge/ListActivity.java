@@ -5,10 +5,13 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,9 +25,9 @@ public class ListActivity extends AppCompatActivity {
     private LinearLayout listLayout;
     private MovieViewModel viewModel;
     Movie movie;
-/*
-    ArrayList<Movie> movies;
-*/
+    Boolean boo;
+    TextView textView;
+
 
     public static final int EDIT_REQUEST_CODE = 1;
 
@@ -37,14 +40,12 @@ public class ListActivity extends AppCompatActivity {
         context = this;
         listLayout = findViewById(R.id.listItem);
         viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
-/*
-        movies = new ArrayList<Movie>();
-*/
 
         final Observer<ArrayList<Movie>> observer = new Observer<ArrayList<Movie>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Movie> movies) {
                 if (movies != null){
+
                     refreshListView(movies);
                 }
             }
@@ -66,8 +67,21 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private TextView getDefaultTextView(final Movie movie) {
-        TextView textView = new TextView(context);
+
+        textView = new TextView(context);
         textView.setText(movie.getMovieName());
+
+        boo = EditActivity.getData();
+
+        if (boo != null){
+            if (boo){
+                Log.i("Charles", Boolean.toString(boo));
+
+                textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+
+            }
+        }
         textView.setTextSize(24);
         textView.setPadding(10, 10, 10, 10);
         textView.setOnClickListener(new View.OnClickListener() {
