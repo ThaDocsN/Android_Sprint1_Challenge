@@ -9,26 +9,28 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/listItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/editText"
+            <!--<TextView
+                android:id="@+id/textViewMovie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:hint="@string/movie"
                 android:inputType="textPersonName"
-                android:text="Name" />
+                android:text="@string/name" />-->
         </LinearLayout>
     </ScrollView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonAddMovie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="@string/add_movie" />
 </LinearLayout>
