@@ -22,6 +22,9 @@ public class ListActivity extends AppCompatActivity {
     private LinearLayout listLayout;
     private MovieViewModel viewModel;
     Movie movie;
+/*
+    ArrayList<Movie> movies;
+*/
 
     public static final int EDIT_REQUEST_CODE = 1;
 
@@ -34,6 +37,9 @@ public class ListActivity extends AppCompatActivity {
         context = this;
         listLayout = findViewById(R.id.listItem);
         viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+/*
+        movies = new ArrayList<Movie>();
+*/
 
         final Observer<ArrayList<Movie>> observer = new Observer<ArrayList<Movie>>() {
             @Override
@@ -58,14 +64,6 @@ public class ListActivity extends AppCompatActivity {
         });
 
     }
-
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-
-        movie = (Movie) getIntent().getSerializableExtra(EditActivity.EDIT_MOVIE_KEY);
-
-    }*/
 
     private TextView getDefaultTextView(final Movie movie) {
         TextView textView = new TextView(context);

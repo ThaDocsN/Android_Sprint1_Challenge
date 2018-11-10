@@ -27,10 +27,7 @@ public class EditActivity extends AppCompatActivity {
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                prepResult();
-                /*Intent intent = new Intent(context, ListActivity.class);
-                intent.putExtra(EDIT_MOVIE_KEY, movie);
-                startActivity(intent);*/
+                onBackPressed();
             }
         });
 
@@ -51,5 +48,12 @@ public class EditActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         prepResult();
+    }
+
+    @Override
+    public void onBackPressed() {
+        prepResult();
+        super.onBackPressed();
+
     }
 }
