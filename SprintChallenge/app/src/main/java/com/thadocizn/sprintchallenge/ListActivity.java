@@ -25,9 +25,9 @@ public class ListActivity extends AppCompatActivity {
     private LinearLayout listLayout;
     private MovieViewModel viewModel;
     Movie movie;
-    Boolean boo;
+    Boolean boo = false;
     TextView textView;
-
+// redo how i get textview
 
     public static final int EDIT_REQUEST_CODE = 1;
 
@@ -45,8 +45,13 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable ArrayList<Movie> movies) {
                 if (movies != null){
+                    TextView hdf = new TextView(context);
+                    for(Movie movie: movies) {
+                         hdf = (TextView)getDefaultTextView(movie);
+                        //listLayout.addView(getDefaultTextView(movie));
+                    }
+                    listLayout.addView(hdf);
 
-                    refreshListView(movies);
                 }
             }
         };
@@ -60,7 +65,6 @@ public class ListActivity extends AppCompatActivity {
                     intent.putExtra(EditActivity.EDIT_MOVIE_KEY, newMovie);
                     startActivityForResult(intent, EDIT_REQUEST_CODE);
 
-
                 }
         });
 
@@ -72,13 +76,11 @@ public class ListActivity extends AppCompatActivity {
         textView.setText(movie.getMovieName());
 
         boo = EditActivity.getData();
-
         if (boo != null){
             if (boo){
                 Log.i("Charles", Boolean.toString(boo));
 
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
 
             }
         }
@@ -87,6 +89,7 @@ public class ListActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(context, EditActivity.class);
                 intent.putExtra(EditActivity.EDIT_MOVIE_KEY, movie);
                 startActivityForResult(intent, EDIT_REQUEST_CODE);
@@ -94,12 +97,6 @@ public class ListActivity extends AppCompatActivity {
         });
 
         return textView;
-    }
-    private void refreshListView(ArrayList<Movie> movies) {
-        listLayout.removeAllViews();
-        for(Movie movie: movies) {
-            listLayout.addView(getDefaultTextView(movie));
-        }
     }
 
     @Override

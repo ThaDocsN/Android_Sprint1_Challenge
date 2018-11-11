@@ -11,10 +11,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-public class EditActivity extends AppCompatActivity {
+import com.thadocizn.sprintchallenge.viewModel.MovieViewModel;
 
+public class EditActivity extends AppCompatActivity {
+    public static final String TAG = EditActivity.class.getSimpleName();
     public static final String EDIT_MOVIE_KEY = "edit_movie";
     public static final String WATCHED_MOVIE = "watched_movie";
+
+    private MovieViewModel viewModel;
+
+
     EditText editMovie;
     Movie movie;
     Context context;
@@ -27,37 +33,49 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
+        movie = (Movie)getIntent().getSerializableExtra(EDIT_MOVIE_KEY);
+
         editMovie = findViewById(R.id.editMovie);
         context = this;
         final CheckBox checkBox = findViewById(R.id.checkBoxWatchedMovie);
 
+        findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Movie deleteMovie = (Movie)getIntent().getSerializableExtra(EDIT_MOVIE_KEY);
+                Log.i(TAG, "movie" + viewModel);
+
+                //viewModel.deleteMovie(deleteMovie);
+            }
+        });
+
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Boolean watched;
                 if (checkBox.isChecked()){
-                    chkBox = true;
-                    Log.i("Charles", Boolean.toString(chkBox));
+                    watched = true;
 
                 }else {
-                    chkBox = false;
-                    Log.i("Charles", Boolean.toString(chkBox));
+                    watched = false;
 
                 }
+                chkBox = watched;
                 onBackPressed();
             }
         });
 
-        movie = (Movie)getIntent().getSerializableExtra(EDIT_MOVIE_KEY);
+
         if (movie == null){
             movie = new Movie(Movie.NO_ID);
         }
+        editMovie.setText(movie.getMovieName());
     }
 
     public static Boolean getData(){
         return chkBox;
     }
     private void prepResult() {
-
         movie.setMovieName(editMovie.getText().toString());
         Intent resultIntent = new Intent();
         resultIntent.putExtra(EDIT_MOVIE_KEY, movie);
