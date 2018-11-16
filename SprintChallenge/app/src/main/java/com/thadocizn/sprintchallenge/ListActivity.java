@@ -6,12 +6,11 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,11 +24,11 @@ public class ListActivity extends AppCompatActivity {
     private LinearLayout listLayout;
     private MovieViewModel viewModel;
     Movie movie;
-    Boolean boo = false;
+    Boolean bool = false;
     TextView textView;
-// redo how i get textview
 
     public static final int EDIT_REQUEST_CODE = 1;
+    public static final int DELETE_RESULT_CODE = 2;
 
 
     @Override
@@ -44,13 +43,12 @@ public class ListActivity extends AppCompatActivity {
         final Observer<ArrayList<Movie>> observer = new Observer<ArrayList<Movie>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Movie> movies) {
-                if (movies != null){
-                    TextView hdf = new TextView(context);
-                    for(Movie movie: movies) {
-                         hdf = (TextView)getDefaultTextView(movie);
-                        //listLayout.addView(getDefaultTextView(movie));
+                if (movies != null) {
+                    TextView textView = new TextView(context);
+                    for (Movie movie : movies) {
+                        textView = (TextView) getDefaultTextView(movie);
                     }
-                    listLayout.addView(hdf);
+                    listLayout.addView(textView);
 
                 }
             }
@@ -60,12 +58,12 @@ public class ListActivity extends AppCompatActivity {
         findViewById(R.id.buttonAddMovie).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent intent = new Intent(context, EditActivity.class);
-                    Movie newMovie = new Movie(Movie.NO_ID);
-                    intent.putExtra(EditActivity.EDIT_MOVIE_KEY, newMovie);
-                    startActivityForResult(intent, EDIT_REQUEST_CODE);
+                Intent intent = new Intent(context, EditActivity.class);
+                Movie newMovie = new Movie(Movie.NO_ID);
+                intent.putExtra(EditActivity.EDIT_MOVIE_KEY, newMovie);
+                startActivityForResult(intent, EDIT_REQUEST_CODE);
 
-                }
+            }
         });
 
     }
@@ -75,10 +73,10 @@ public class ListActivity extends AppCompatActivity {
         textView = new TextView(context);
         textView.setText(movie.getMovieName());
 
-        boo = EditActivity.getData();
-        if (boo != null){
-            if (boo){
-                Log.i("Charles", Boolean.toString(boo));
+        bool = EditActivity.getData();
+        if (bool != null) {
+            if (bool) {
+                Log.i("Charles", Boolean.toString(bool));
 
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
@@ -103,13 +101,18 @@ public class ListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == EDIT_REQUEST_CODE) {
-                if(data != null) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == EDIT_REQUEST_CODE) {
+                if (data != null) {
                     Movie returnedMovie = (Movie) data.getSerializableExtra(EditActivity.EDIT_MOVIE_KEY);
 
                     viewModel.addMovie(returnedMovie);
                 }
+            }
+        } else {
+            if (data != null) {
+                Movie returnMovie = (Movie) data.getSerializableExtra(EditActivity.EDIT_MOVIE_KEY);
+                viewModel.deleteMovie(returnMovie);
             }
         }
     }

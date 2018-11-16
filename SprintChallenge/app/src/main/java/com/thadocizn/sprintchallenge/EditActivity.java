@@ -42,10 +42,10 @@ public class EditActivity extends AppCompatActivity {
         findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Movie deleteMovie = (Movie)getIntent().getSerializableExtra(EDIT_MOVIE_KEY);
-                Log.i(TAG, "movie" + viewModel);
-
-                //viewModel.deleteMovie(deleteMovie);
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(EDIT_MOVIE_KEY, movie);
+                setResult(ListActivity.DELETE_RESULT_CODE, resultIntent);
+                finish();
             }
         });
 
@@ -61,13 +61,14 @@ public class EditActivity extends AppCompatActivity {
 
                 }
                 chkBox = watched;
-                onBackPressed();
+                prepResult();
             }
         });
 
 
         if (movie == null){
             movie = new Movie(Movie.NO_ID);
+            movie.setMovieName("");
         }
         editMovie.setText(movie.getMovieName());
     }
@@ -80,6 +81,7 @@ public class EditActivity extends AppCompatActivity {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(EDIT_MOVIE_KEY, movie);
         setResult(Activity.RESULT_OK, resultIntent);
+        finish();
 
     }
 
@@ -89,10 +91,10 @@ public class EditActivity extends AppCompatActivity {
         prepResult();
     }
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         prepResult();
         super.onBackPressed();
 
-    }
+    }*/
 }
