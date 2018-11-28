@@ -29,7 +29,6 @@ public class ListActivity extends AppCompatActivity {
     TextView textView;
 
     public static final int EDIT_REQUEST_CODE = 1;
-    public static final int DELETE_RESULT_CODE = 2;
 
 
     @Override
