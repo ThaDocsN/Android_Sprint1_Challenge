@@ -6,6 +6,7 @@ public class Movie implements Serializable {
 
     public static final int NO_ID = -1;
 
+    private boolean watched;
     private String movieName;
     private int id;
 
@@ -13,10 +14,19 @@ public class Movie implements Serializable {
         this.id = id;
     }
 
-    public Movie(String movieName, int id) {
+    public Movie(String movieName, int id, boolean watched) {
 
         this.movieName = movieName;
         this.id = id;
+        this.watched = watched;
+    }
+
+    public boolean isWatched() {
+        return watched;
+    }
+
+    public void setWatched(boolean watched) {
+        this.watched = watched;
     }
 
     public String getMovieName() {

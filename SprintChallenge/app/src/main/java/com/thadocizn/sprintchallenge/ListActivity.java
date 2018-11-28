@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,12 +45,7 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable ArrayList<Movie> movies) {
                 if (movies != null) {
-                    TextView textView = new TextView(context);
-                    for (Movie movie : movies) {
-                        textView = (TextView) getDefaultTextView(movie);
-                    }
-                    listLayout.addView(textView);
-
+                    refreshListView(movies);
                 }
             }
         };
@@ -67,20 +63,20 @@ public class ListActivity extends AppCompatActivity {
         });
 
     }
-
+    private void refreshListView(ArrayList<Movie> movies) {
+        listLayout.removeAllViews();
+        for (Movie movie : movies) {
+            listLayout.addView(getDefaultTextView(movie));
+        }
+    }
     private TextView getDefaultTextView(final Movie movie) {
+
 
         textView = new TextView(context);
         textView.setText(movie.getMovieName());
-
-        bool = EditActivity.getData();
-        if (bool != null) {
-            if (bool) {
-                Log.i("Charles", Boolean.toString(bool));
-
-                textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-            }
+        if (movie.isWatched()){
+            textView.setTextColor(Color.BLUE);
+            textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
         textView.setTextSize(24);
         textView.setPadding(10, 10, 10, 10);
@@ -109,11 +105,11 @@ public class ListActivity extends AppCompatActivity {
                     viewModel.addMovie(returnedMovie);
                 }
             }
-        } else {
+        }
+        else {
             if (data != null) {
                 Movie returnMovie = (Movie) data.getSerializableExtra(EditActivity.EDIT_MOVIE_KEY);
                 viewModel.deleteMovie(returnMovie);
             }
         }
-    }
-}
+}}

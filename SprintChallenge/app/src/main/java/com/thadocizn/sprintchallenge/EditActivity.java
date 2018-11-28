@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 import com.thadocizn.sprintchallenge.viewModel.MovieViewModel;
 
@@ -24,8 +25,7 @@ public class EditActivity extends AppCompatActivity {
     EditText editMovie;
     Movie movie;
     Context context;
-    private static Boolean chkBox ;
-
+    ToggleButton toggleButton;
 
 
     @Override
@@ -37,14 +37,14 @@ public class EditActivity extends AppCompatActivity {
 
         editMovie = findViewById(R.id.editMovie);
         context = this;
-        final CheckBox checkBox = findViewById(R.id.checkBoxWatchedMovie);
+        toggleButton = findViewById(R.id.checkBoxWatchedMovie);
 
         findViewById(R.id.buttonDelete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra(EDIT_MOVIE_KEY, movie);
-                setResult(ListActivity.DELETE_RESULT_CODE, resultIntent);
+                setResult(Activity.RESULT_CANCELED, resultIntent);
                 finish();
             }
         });
@@ -52,15 +52,6 @@ public class EditActivity extends AppCompatActivity {
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Boolean watched;
-                if (checkBox.isChecked()){
-                    watched = true;
-
-                }else {
-                    watched = false;
-
-                }
-                chkBox = watched;
                 prepResult();
             }
         });
@@ -68,16 +59,15 @@ public class EditActivity extends AppCompatActivity {
 
         if (movie == null){
             movie = new Movie(Movie.NO_ID);
-            movie.setMovieName("");
         }
         editMovie.setText(movie.getMovieName());
+        toggleButton.setChecked(movie.isWatched());
+
     }
 
-    public static Boolean getData(){
-        return chkBox;
-    }
     private void prepResult() {
         movie.setMovieName(editMovie.getText().toString());
+        movie.setWatched(toggleButton.isChecked());
         Intent resultIntent = new Intent();
         resultIntent.putExtra(EDIT_MOVIE_KEY, movie);
         setResult(Activity.RESULT_OK, resultIntent);
@@ -91,10 +81,10 @@ public class EditActivity extends AppCompatActivity {
         prepResult();
     }
 
-   /* @Override
+    @Override
     public void onBackPressed() {
         prepResult();
         super.onBackPressed();
 
-    }*/
+    }
 }
